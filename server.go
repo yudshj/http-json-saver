@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,11 +16,13 @@ var allowedOrigins = map[string]bool{
 	"http://127.0.0.1":           true,
 }
 
+var enableOriginCheck bool
+
 func saveJSONHandler(w http.ResponseWriter, r *http.Request) {
 	origin := r.Header.Get("Origin")
 
-	// 检查请求的来源是否在允许的来源列表中
-	if !allowedOrigins[origin] {
+	// 如果启用了 Origin 验证，检查请求的来源是否在允许的来源列表中
+	if enableOriginCheck && !allowedOrigins[origin] {
 		http.Error(w, "Forbidden: Invalid origin", http.StatusForbidden)
 		return
 	}
@@ -79,6 +82,10 @@ func saveJSONHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// 使用 flag 包来解析命令行参数
+	flag.BoolVar(&enableOriginCheck, "enable-origin-check", true, "Enable or disable origin check")
+	flag.Parse()
+
 	http.HandleFunc("/save", saveJSONHandler)
 
 	fmt.Println("Starting server on 127.0.0.1:3000")
