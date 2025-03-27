@@ -16,17 +16,17 @@ This is a simple HTTP server written in Go that listens on `127.0.0.1:3000`. It 
 To build the server, ensure you have Go installed and run:
 
 ```bash
-go build -o myserver server.go
+go build
 ```
 
-This will create an executable named `myserver`.
+This will create an executable named `http-json-saver`.
 
 ### Running the Server
 
 You can run the server with the following command:
 
 ```bash
-./myserver
+./http-json-saver
 ```
 
 By default, the server will have origin validation enabled.
@@ -38,7 +38,7 @@ By default, the server will have origin validation enabled.
 Example to disable origin validation:
 
 ```bash
-./myserver -enable-origin-check=false
+./http-json-saver -enable-origin-check=false
 ```
 
 ### Endpoints
